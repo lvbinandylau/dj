@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public static baseUrl = 'http://127.0.0.1';
+  public static baseUrl = 'http://47.98.216.143';
   public static port = '12306';
   public static urlLgin = AppComponent.baseUrl + ':' + AppComponent.port + '/login';
   public static urlSignup = AppComponent.baseUrl + ':' + AppComponent.port + '/insertUser';
