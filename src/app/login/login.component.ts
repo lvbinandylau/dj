@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {AppComponent} from '../app.component';
+import {UserNameService} from '../user-name.service';
 
 @Component({
   selector: 'app-login',
@@ -27,11 +28,14 @@ export class LoginComponent implements OnInit {
   SignUpErrDisplay = false;
   LoginErr = false;
   myReturn: ReturnValue;
+  private urlGetName = AppComponent.urlGetName;
+  loginname = '';
 
   constructor(
     private el: ElementRef,
     private httpClient: HttpClient,
     private router: Router,
+    private usernameservice: UserNameService,
   ) {
   }
 
@@ -69,7 +73,7 @@ export class LoginComponent implements OnInit {
       this.httpClient
         .post<ReturnValue>(this.urlSignup, httpParams, { headers: headers_object, withCredentials: true})
         .subscribe(resp => {
-          console.log(resp.msg);
+          console.log('signup:' + resp.msg);
           // 判断返回值
           if (resp.msg === 'success') {
             this.signupMessage = this.userName;
@@ -110,16 +114,33 @@ export class LoginComponent implements OnInit {
           .post<ReturnValue>(this.urlLogin, httpParams, { headers: headers_object, withCredentials: true})
           .subscribe(resp => {
             if (resp.msg === 'success') {
-              this.router.navigateByUrl('/details');
+              this.LoginErr = false;
+              this.getname();
             } else {
               this.LoginErr = true;
               setTimeout(() => this.LoginErr = false, 2000);
             }
-          });
+          },
+            error1 => {
+                    console.log(error1);
+            } );
     }
-
-
   }
+
+  getname() {
+    this.httpClient.get<ReturnValue>(this.urlGetName, {withCredentials: true})
+      .subscribe(
+        resp => {
+          console.log('login:' + resp.msg);
+          // this.myReturn = resp;
+          this.usernameservice.setname(resp.msg);
+          this.router.navigate(['/details']);
+        },
+        error1 => console.log('error for getname!'),
+        () => { console.log('login completed'); }
+      );
+  }
+
 
   ngOnInit() {
   }

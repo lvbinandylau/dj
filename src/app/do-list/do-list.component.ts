@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ReturnValue} from '../login/login.component';
 import {AppComponent} from '../app.component';
+import {DetailsComponent} from '../details/details.component';
+import {ActivatedRoute} from '@angular/router';
+import {UserNameService} from '../user-name.service';
 
 @Component({
   selector: 'app-do-list',
@@ -9,25 +12,18 @@ import {AppComponent} from '../app.component';
   styleUrls: ['./do-list.component.css']
 })
 export class DoListComponent implements OnInit {
-  private urlGetName = AppComponent.urlGetName;
-  loginname = '';
+  urlGetName = '';
 
   constructor(
     private httpClient: HttpClient,
-
+    private usernameservice: UserNameService,
   ) { }
-
-  getname() {
-    this.httpClient.get<ReturnValue>(this.urlGetName, {withCredentials: true})
-      .subscribe(resp => {
-        console.log(resp.msg);
-        this.loginname = resp.msg;
-      });
-  }
 
 
   ngOnInit() {
-    this.getname();
+    this.urlGetName = this.usernameservice.getName();
+    console.log('dolist:' + this.urlGetName);
+
   }
 
 }

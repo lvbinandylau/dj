@@ -9,11 +9,12 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public static baseUrl = 'http://127.0.0.1';
+  public static baseUrl = 'http://www.lvbin1983.com';
   public static port = '12306';
   public static urlLgin = AppComponent.baseUrl + ':' + AppComponent.port + '/login';
   public static urlSignup = AppComponent.baseUrl + ':' + AppComponent.port + '/insertUser';
   public static urlGetName = AppComponent.baseUrl + ':' + AppComponent.port + '/getname';
+
   /*
   title = 'app';
   userName = '';
